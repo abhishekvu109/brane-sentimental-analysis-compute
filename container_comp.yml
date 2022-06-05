@@ -1,0 +1,51 @@
+# Define the file metadata
+name: compute
+version: 1.0.0
+kind: ecu
+
+# Define the files that are part of the package
+files:
+  - compute.py
+
+# Defines the file to call whenever a function is called
+entrypoint:
+  kind: task
+  exec: compute.py
+
+# Define the dependencies (as Ubuntu packages)
+dependencies:
+  - python3
+  - python3-yaml
+  - python3-pip
+
+install:
+  - pip3 install textblob
+  - pip3 install wordcloud
+  - pip3 install nltk
+  - pip3 install plotly==5.3.1
+  - pip3 install wordninja
+  - pip3 install pyspellchecker
+  - pip3 install pandas
+  - pip3 install seaborn
+  - pip3 install -U kaleido
+  - pip3 install --user -U nltk
+
+# Define the actions
+actions:
+  vaccine_data_processing:
+    command:
+      # This is just a list of arguments we pass to the function (i.e., sys.argv in Python)
+      args:
+        - vaccine
+    input:
+      # Define the input: a single string under the 'INPUT' environment variable
+      - name: input
+        type: string
+      - name: path
+        type: string
+      - name: filename
+        type: string
+    output:
+      # Define the output: a string, identifyable by the 'output' key
+      - name: output
+        type: string
